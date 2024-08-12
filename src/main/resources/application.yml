@@ -1,0 +1,71 @@
+# Conversion to YAML from Properties formar report
+# Warnings:
+# - The yaml file had comments which are lost in the refactoring!
+#spring:
+#  application:
+#    name: e-commerce
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/e-commerce?useUnicode=true&characterEncoding=UTF-8
+#    username: root
+#    password: 123456
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#      naming:
+#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+#        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
+#    show-sql: true
+
+
+spring:
+  application:
+    name: e-commerce
+
+  datasource:
+    hikari:
+      connection-timeout: 600000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      maximum-pool-size: 10
+    url: jdbc:mysql://localhost:3306/e-commerce?useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: 123456
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        jdbc:
+          batch_size: 100
+        order_inserts: true
+    show-sql: true
+
+server:
+  port: 8089
+  
+---
+spring:
+  config:
+    activate:
+      on-profile: development
+server:
+  port: 8090
+
+---
+spring:
+  config:
+    activate:
+      on-profile: stagging
+server:
+  port: 8081
+
+---
+spring:
+  config:
+    activate:
+      on-profile: production
+server:
+  port: 8083
